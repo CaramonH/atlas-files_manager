@@ -7,7 +7,7 @@ class RedisClient {
     this.client = redis.createClient();
 
     // Display any errors in the console
-    this.client.on("error", (err) => {
+    this.client.on('error', (err) => {
       console.error(`Redis client error: ${err}`);
     });
 
