@@ -1,9 +1,10 @@
-// Task 2 - First Api 
+// Task 2 - First Api
 // Controller file
 
 // Import the dbClient and redisClient
-const dbClient = require('../utils/db');
 import redisClient from '../utils/redis';
+
+const dbClient = require('../utils/db');
 
 const AppController = {
   // Get status of Redis and MongoDB
@@ -38,4 +39,3 @@ const AppController = {
 };
 
 module.exports = AppController;
-
