@@ -1,6 +1,6 @@
 // Task 1 - MongoDB Utils
 
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 class DBClient {
   constructor() {
@@ -45,7 +45,31 @@ class DBClient {
     // if connected return count of file documents
     return this.db.collection('files').countDocuments();
   }
+
+  // Retrieve a user by email
+  async getUserByEmail(email) {
+    if (!this.isAlive()) return null;
+    return this.db.collection('users').findOne({ email });
+  }
+
+  // Retrieve a user by _id
+  async getUserById(userId) {
+    if (!this.db) {
+      return null;
+    }
+    // Convert the userId string to an ObjectId for MongoDB
+    const objectId = new ObjectId(userId);
+    return this.db.collection('users').findOne({ _id: objectId });
+  }
+
+  // Create a new user
+  async createUser(user) {
+    if (!this.isAlive()) return null;
+    const result = await this.db.collection('users').insertOne(user);
+    return result.ops[0]; // Return the created user document
+  }
 }
+
 const dbClient = new DBClient();
 
 module.exports = dbClient;
