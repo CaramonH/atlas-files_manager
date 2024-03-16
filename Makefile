@@ -14,7 +14,7 @@ build:
 # This will run the image in the background and map port 2022 to the ssh port on the dev box
 # Feel free to add more ports as needed, (ex: docker run -d -p 2022:22 -p 9000:80 dev-box)
 run:
-	docker run -d --name $(DOCKER_CONTAINER_NAME) -p 2022:22 -p 8080:8080 -p 9000:9000 -p 9001:9001 -p 3000:3000 -p 4000:4000 -v ${HOST_DIRECTORY}:${CONTAINER_DIRECTORY} ${DOCKER_IMAGE_NAME}
+	docker run -d --name $(DOCKER_CONTAINER_NAME) -p 2022:22 -p 8080:8080 -p 9000:9000 -p 9001:9001 -p 3000:3000 -p 4000:4000 -p 6379:6379 -v ${HOST_DIRECTORY}:${CONTAINER_DIRECTORY} ${DOCKER_IMAGE_NAME}
 
 # Execute a command inside the Docker container
 exec:
