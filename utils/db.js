@@ -45,7 +45,21 @@ class DBClient {
     // if connected return count of file documents
     return this.db.collection('files').countDocuments();
   }
+
+  // Retrieve a user by email
+  async getUserByEmail(email) {
+    if (!this.isAlive()) return null;
+    return this.db.collection('users').findOne({ email });
+  }
+
+  // Create a new user
+  async createUser(user) {
+    if (!this.isAlive()) return null;
+    const result = await this.db.collection('users').insertOne(user);
+    return result.ops[0]; // Return the created user document
+  }
 }
+
 const dbClient = new DBClient();
 
 module.exports = dbClient;
