@@ -25,5 +25,9 @@ router.get('/disconnect', AuthController.getDisconnect);
 router.get('/users/me', UsersController.getMe);
 // This retrieves the file based on the data provided in the request body
 router.post('/files', FilesController.postUpload);
+// This retrieves a specific file by its ID
+router.get('/files/:id', FilesController.getShow);
+// This retrieves all files
+router.get('/files', FilesController.getIndex);
 
 module.exports = router;

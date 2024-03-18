@@ -1,4 +1,4 @@
-// Task 5 - FilesController.js
+// Task 5 and 6 - FilesController.js
 
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
@@ -88,6 +88,44 @@ class FilesController {
       parentId: fileData.parentId,
       ...(type !== 'folder' && { localPath: fileData.localPath }),
     });
+  }
+
+  // Get a specific file by ID
+  static async getShow(req, res) {
+    const token = req.headers['x-token'];
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId) {
+      console.log('No userId or invalid');
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const fileId = req.params.id;
+    const file = await dbClient.db.collection('files').findOne({ _id: new ObjectId(fileId), userId: new ObjectId(userId) });
+    if (!file) {
+      console.log('File not found');
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    return res.status(200).json(file);
+  }
+
+  // Get all files with pagination
+  static async getIndex(req, res) {
+    const token = req.headers['x-token'];
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId) {
+      console.log('No userId or invalid');
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const parentId = req.query.parentId || '0';
+    const page = parseInt(req.query.page, 10) || 0;
+    const limit = 20;
+    const skip = page * limit;
+
+    const files = await dbClient.db.collection('files').find({ userId: new ObjectId(userId), parentId: new ObjectId(parentId) }).skip(skip).limit(limit).toArray();
+
+    return res.status(200).json(files);
   }
 }
 
