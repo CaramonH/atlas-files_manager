@@ -1,11 +1,11 @@
 // Task 5 - FilesController.js
 
-import { v4 as uuidv4 } from 'uuid';
-import fs from 'fs';
-import path from 'path';
-import { ObjectId } from 'mongodb';
-import dbClient from '../utils/db';
-import redisClient from '../utils/redis';
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const path = require('path');
+const { ObjectId } = require('mongodb');
+const dbClient = require('../utils/db');
+const redisClient = require('../utils/redis');
 
 class FilesController {
   static async postUpload(req, res) {
@@ -91,4 +91,4 @@ class FilesController {
   }
 }
 
-export default FilesController;
+module.exports = FilesController;

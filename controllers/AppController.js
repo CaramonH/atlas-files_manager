@@ -2,7 +2,7 @@
 // Controller file
 
 // Import the dbClient and redisClient
-import redisClient from '../utils/redis';
+const redisClient = require('../utils/redis');
 
 const dbClient = require('../utils/db');
 
