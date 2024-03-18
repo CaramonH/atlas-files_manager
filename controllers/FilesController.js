@@ -1,4 +1,4 @@
-// Task 5 and 6 - FilesController.js
+// Task 5, 6, and 7 - FilesController.js
 
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
@@ -8,6 +8,7 @@ const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
 
 class FilesController {
+  // POST /files
   static async postUpload(req, res) {
     // Get the user ID from Redis based on the token
     const token = req.headers['x-token'];
@@ -143,6 +144,7 @@ class FilesController {
     }
   }
 
+  // PUT /files/:id/publish
   static async putPublish(req, res) {
     try {
       const token = req.headers['x-token'];
@@ -166,6 +168,7 @@ class FilesController {
     }
   }
 
+  // PUT /files/:id/unpublish
   static async putUnpublish(req, res) {
     try {
       const token = req.headers['x-token'];
