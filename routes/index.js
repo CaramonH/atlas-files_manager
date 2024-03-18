@@ -6,6 +6,7 @@ const router = express.Router();
 const AppController = require('../controllers/AppController');
 const UsersController = require('../controllers/UsersController');
 const AuthController = require('../controllers/AuthController');
+const FilesController = require('../controllers/FilesController');
 
 // API Endpoints
 
@@ -22,5 +23,7 @@ router.get('/disconnect', AuthController.getDisconnect);
 // This should retrieve the user based on the token used
 // weirdly I think they had a typo and wanted UserController instead of UsersController
 router.get('/users/me', UsersController.getMe);
+// This retrieves the file based on the data provided in the request body
+router.post('/files', FilesController.postUpload);
 
 module.exports = router;
