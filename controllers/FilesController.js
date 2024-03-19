@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { ObjectId } = require('mongodb');
 const mime = require('mime-types');
+const fileQueue = require('../worker');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
 
@@ -79,6 +80,14 @@ class FilesController {
 
     // Insert the file data into the database
     const newFile = await dbClient.db.collection('files').insertOne(fileData);
+
+    // After successfully saving the file and if it's an image, add to the Queue
+    if (type === 'image') {
+      fileQueue.add({
+        userId: userId.toString(),
+        fileId: newFile.insertedId.toString(),
+      });
+    }
 
     // Return the response
     console.log('newFile is:', newFile);
@@ -220,6 +229,15 @@ class FilesController {
       // Check if the file exists locally
       if (!fs.existsSync(file.localPath)) {
         return res.status(404).json({ error: 'Not found' });
+      }
+
+      const { size } = req.query;
+      if (size && ['500', '250', '100'].includes(size)) {
+        const thumbnailPath = `${file.localPath}_${size}`;
+        if (!fs.existsSync(thumbnailPath)) {
+          return res.status(404).json({ error: 'Not found' });
+        }
+        file.localPath = thumbnailPath;
       }
 
       // first half: Determine the MIME type of the file
