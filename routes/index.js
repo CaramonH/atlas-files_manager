@@ -16,11 +16,11 @@ router.get('/status', AppController.getStatus);
 router.get('/stats', AppController.getStats);
 // This creates a new user
 router.post('/users', UsersController.postNew);
-// This should sign-in the user by generating a new authentication token
+// This signs-in the user by generating a new authentication token
 router.get('/connect', AuthController.getConnect);
-// This should sign-out the user based on the token
+// This signs-out the user based on the token
 router.get('/disconnect', AuthController.getDisconnect);
-// This should retrieve the user based on the token used
+// This retrieves the user based on the token used
 // weirdly I think they had a typo and wanted UserController instead of UsersController
 router.get('/users/me', UsersController.getMe);
 // This retrieves the file based on the data provided in the request body
@@ -33,5 +33,7 @@ router.get('/files', FilesController.getIndex);
 router.put('/files/:id/publish', FilesController.putPublish);
 // This unpublish a file
 router.put('/files/:id/unpublish', FilesController.putUnpublish);
+// This should return the content of the file document based on the ID
+router.get('/files/:id/data', FilesController.getFile);
 
 module.exports = router;
