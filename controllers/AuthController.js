@@ -1,7 +1,6 @@
 // Task 4 AuthController
 
-const redis = require('redis');
-
+const redisClient = require('../utils/redis');
 const { v4: uuidv4 } = require('../node_modules/uuid');
 const sha1 = require('../node_modules/sha1');
 const dbClient = require('../utils/db');
